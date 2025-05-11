@@ -1,0 +1,17 @@
+html {
+    background-color: black;
+}
+
+body{
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.box{
+    height: 100px;
+    width: 100px;
+    background-color: rgb(226, 59, 59);
+    position: absolute;
+    left: 50vw;
+    top: 50vh;
+}

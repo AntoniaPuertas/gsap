@@ -1,0 +1,69 @@
+html {
+    background-color: black;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    overflow-x: hidden;
+}
+#container{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+.box{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+}
+.box img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+}
+.box.a{
+    z-index: 3;
+}
+.box.b{
+    z-index: 2;
+}
+.box.c{
+    z-index: 1;
+}
+
+/* movimiento */
+.section {
+  height: 50%;
+  background: #293744;
+  color: #899eb5;
+}
+
+.scene {
+  height: 100%;
+  width: 100%;
+  background: #EAEAEA;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.viewer {
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 200px;
+  width: 100%;
+  background-image: url('../img/doodle-sprite.png');
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}

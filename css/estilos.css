@@ -1,0 +1,167 @@
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        section {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-top: 20px;
+        }
+
+        /* Parallax Section */
+        .parallax-section {
+            background: url('../img/Lucia_caminos_02.webp') center/cover no-repeat;
+            position: relative;
+        }
+
+        .parallax-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .parallax-text {
+            font-size: 3rem;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .parallax-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        /* Features Section */
+        .features {
+            background: #111;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 100px 50px;
+        }
+
+        .feature {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Interactive Section */
+        .interactive {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .interactive-text {
+            font-size: 6rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-text:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Progress Bar */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+
+            .parallax-text {
+                font-size: 2rem;
+            }
+
+            .features {
+                flex-direction: column;
+                padding: 50px 20px;
+            }
+
+            .feature {
+                margin-bottom: 50px;
+            }
+
+            .interactive-text {
+                font-size: 3rem;
+            }
+        }
