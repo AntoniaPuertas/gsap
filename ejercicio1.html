@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio1</title>
+</head>
+<style>
+     body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .animation-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #7e57c2;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+</style>
+<body>
+    <div class="animation-box">
+        <div class="box" id="demo-box">Caja</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        const box = document.getElementById('demo-box');
+
+        // Mover la caja a la derecha, rotarla y cambiar su escala
+        gsap.to(box, {
+        x: 200,          // Mover 200px a la derecha
+        rotation: 360,   // Rotar 360 grados
+        scale: 1.5,      // Escalar a 1.5 veces su tamaño
+        duration: 1,     // Duración de 1 segundo
+        ease: "power2.out"  // Tipo de easing
+        });
+
+    </script>
+</body>
+</html>

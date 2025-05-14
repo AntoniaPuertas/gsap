@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Básico de GSAP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2a5885;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .playground {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .animation-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #7e57c2;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .circle {
+            width: 80px;
+            height: 80px;
+            background-color: #f44336;
+            border-radius: 50%;
+            position: absolute;
+            left: 30%;
+            opacity: 0;
+        }
+        
+        .star {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid #2196f3;
+            position: absolute;
+            right: 30%;
+            opacity: 0;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #2a5885;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1e3f66;
+        }
+        
+        .code-example {
+            background-color: #282c34;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        pre {
+            margin: 0;
+            color: #abb2bf;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        
+        .comment {
+            color: #6a7384;
+        }
+        
+        .keyword {
+            color: #c678dd;
+        }
+        
+        .string {
+            color: #98c379;
+        }
+        
+        .number {
+            color: #d19a66;
+        }
+        
+        .function {
+            color: #61afef;
+        }
+        
+        .property {
+            color: #e06c75;
+        }
+        
+        .selector {
+            color: #e5c07b;
+        }
+        
+        .tutorial-section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            color: #2a5885;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #455a64;
+        }
+        
+        .tip {
+            background-color: #e1f5fe;
+            border-left: 4px solid #0288d1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tip h4 {
+            margin-top: 0;
+            color: #0288d1;
+        }
+        
+        #timeline-demo {
+            height: 100px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .timeline-element {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+        }
+        
+        #elem1 {
+            background-color: #8bc34a;
+            left: 0;
+        }
+        
+        #elem2 {
+            background-color: #ff9800;
+            left: 0;
+            top: 10px;
+        }
+        
+        #elem3 {
+            background-color: #9c27b0;
+            left: 0;
+            top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tutorial Básico de GSAP</h1>
+        
+        <div class="tutorial-section">
+            <h2>¿Qué es GSAP?</h2>
+            <p>GSAP (GreenSock Animation Platform) es una biblioteca de JavaScript que permite crear animaciones web de alto rendimiento con una API sencilla pero potente. GSAP es compatible con todos los navegadores modernos y puede animar prácticamente cualquier propiedad CSS o atributo SVG.</p>
+            
+            <div class="tip">
+                <h4>Ventajas de GSAP:</h4>
+                <ul>
+                    <li>Alto rendimiento, incluso en animaciones complejas</li>
+                    <li>API consistente y fácil de usar</li>
+                    <li>Control preciso sobre el tiempo y la secuencia</li>
+                    <li>Compatible con todas las propiedades CSS, SVG, Canvas y más</li>
+                    <li>Funciona sin problemas en dispositivos móviles</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Configuración Inicial</h2>
+            <p>Para empezar, necesitamos incluir la biblioteca GSAP en nuestro proyecto. Puedes hacerlo con npm o utilizando un CDN:</p>
+            
+            <div class="code-example">
+                <pre><span class="comment"><!-- Incluir GSAP desde CDN --></span>
+<span class="keyword">&lt;script</span> <span class="property">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"</span><span class="keyword">&gt;&lt;/script&gt;</span></pre>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Animación Básica</h2>
+            <p>Veamos una animación simple utilizando el método <code>gsap.to()</code>:</p>
+            
+            <div class="playground">
+                <div class="animation-box">
+                    <div class="box" id="demo-box">Caja</div>
+                </div>
+                <div class="controls">
+                    <button id="animation1">Animar</button>
+                    <button id="reset1">Reiniciar</button>
+                </div>
+            </div>
+            
+            <div class="code-example">
+                <pre><span class="comment">// Animación básica con gsap.to()</span>
+<span class="keyword">const</span> <span class="property">box</span> = <span class="function">document</span>.<span class="function">getElementById</span>(<span class="string">'demo-box'</span>);
+
+<span class="comment">// Mover la caja a la derecha, rotarla y cambiar su escala</span>
+<span class="function">gsap</span>.<span class="function">to</span>(box, {
+  <span class="property">x</span>: <span class="number">200</span>,          <span class="comment">// Mover 200px a la derecha</span>
+  <span class="property">rotation</span>: <span class="number">360</span>,   <span class="comment">// Rotar 360 grados</span>
+  <span class="property">scale</span>: <span class="number">1.5</span>,      <span class="comment">// Escalar a 1.5 veces su tamaño</span>
+  <span class="property">duration</span>: <span class="number">1</span>,     <span class="comment">// Duración de 1 segundo</span>
+  <span class="property">ease</span>: <span class="string">"power2.out"</span>  <span class="comment">// Tipo de easing</span>
+});</pre>
+            </div>
+            
+            <h3>Métodos principales de animación</h3>
+            <ul>
+                <li><code>gsap.to()</code> - Anima elementos DESDE sus valores actuales HASTA los valores especificados</li>
+                <li><code>gsap.from()</code> - Anima elementos DESDE los valores especificados HASTA sus valores actuales</li>
+                <li><code>gsap.fromTo()</code> - Anima elementos DESDE los valores iniciales especificados HASTA los valores finales especificados</li>
+                <li><code>gsap.set()</code> - Establece propiedades instantáneamente (sin animación)</li>
+            </ul>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Staggering (Animaciones Escalonadas)</h2>
+            <p>GSAP permite animar múltiples elementos con un efecto escalonado:</p>
+            
+            <div class="playground">
+                <div class="animation-box" id="stagger-container">
+                    <div class="box stagger-box" style="position: absolute; left: 100px; background-color: #ff5722;">1</div>
+                    <div class="box stagger-box" style="position: absolute; left: 250px; background-color: #4caf50;">2</div>
+                    <div class="box stagger-box" style="position: absolute; left: 400px; background-color: #2196f3;">3</div>
+                    <div class="box stagger-box" style="position: absolute; left: 550px; background-color: #9c27b0;">4</div>
+                </div>
+                <div class="controls">
+                    <button id="stagger-btn">Animar Escalonado</button>
+                    <button id="reset-stagger">Reiniciar</button>
+                </div>
+            </div>
+            
+            <div class="code-example">
+                <pre><span class="comment">// Animación escalonada</span>
+<span class="keyword">const</span> <span class="property">boxes</span> = <span class="function">document</span>.<span class="function">querySelectorAll</span>(<span class="string">".stagger-box"</span>);
+
+<span class="function">gsap</span>.<span class="function">to</span>(boxes, {
+  <span class="property">y</span>: <span class="number">100</span>,          <span class="comment">// Mover hacia abajo</span>
+  <span class="property">opacity</span>: <span class="number">0.5</span>,    <span class="comment">// Cambiar opacidad</span>
+  <span class="property">scale</span>: <span class="number">0.8</span>,      <span class="comment">// Reducir tamaño</span>
+  <span class="property">duration</span>: <span class="number">0.8</span>,   <span class="comment">// Duración</span>
+  <span class="property">stagger</span>: <span class="number">0.2</span>,    <span class="comment">// Tiempo entre cada animación</span>
+  <span class="property">ease</span>: <span class="string">"back.out(1.7)"</span> <span class="comment">// Efecto de rebote</span>
+});</pre>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Timelines</h2>
+            <p>Los Timelines son una de las características más potentes de GSAP. Permiten secuenciar y controlar múltiples animaciones:</p>
+            
+            <div class="playground">
+                <div class="animation-box">
+                    <div class="box" id="timeline-box" style="background-color: #039be5;">Caja</div>
+                    <div class="circle" id="timeline-circle"></div>
+                    <div class="star" id="timeline-star"></div>
+                </div>
+                <div class="controls">
+                    <button id="timeline-btn">Iniciar Timeline</button>
+                    <button id="reset-timeline">Reiniciar</button>
+                </div>
+            </div>
+            
+            <div class="code-example">
+                <pre><span class="comment">// Creando un Timeline</span>
+<span class="keyword">const</span> <span class="property">tl</span> = <span class="function">gsap</span>.<span class="function">timeline</span>({
+  <span class="property">defaults</span>: { <span class="property">duration</span>: <span class="number">0.8</span>, <span class="property">ease</span>: <span class="string">"power1.out"</span> },
+  <span class="property">onComplete</span>: <span class="function">() => </span><span class="function">console</span>.<span class="function">log</span>(<span class="string">"¡Timeline completado!"</span>)
+});
+
+<span class="comment">// Añadiendo animaciones al timeline</span>
+tl.<span class="function">to</span>(<span class="string">"#timeline-box"</span>, { <span class="property">x</span>: <span class="number">200</span>, <span class="property">rotation</span>: <span class="number">360</span> })
+  .<span class="function">to</span>(<span class="string">"#timeline-circle"</span>, { <span class="property">opacity</span>: <span class="number">1</span>, <span class="property">scale</span>: <span class="number">1.5</span> }, <span class="string">"<"</span>) <span class="comment">// El '<' significa "al mismo tiempo que la animación anterior"</span>
+  .<span class="function">to</span>(<span class="string">"#timeline-box"</span>, { <span class="property">y</span>: <span class="number">100</span>, <span class="property">backgroundColor</span>: <span class="string">"#e91e63"</span> })
+  .<span class="function">to</span>(<span class="string">"#timeline-star"</span>, { <span class="property">opacity</span>: <span class="number">1</span>, <span class="property">rotation</span>: <span class="number">720</span> })
+  .<span class="function">to</span>([<span class="string">"#timeline-box"</span>, <span class="string">"#timeline-circle"</span>, <span class="string">"#timeline-star"</span>], { 
+    <span class="property">scale</span>: <span class="number">0</span>, 
+    <span class="property">opacity</span>: <span class="number">0</span>, 
+    <span class="property">stagger</span>: <span class="number">0.2</span> 
+  });</pre>
+            </div>
+            
+            <div class="tip">
+                <h4>Control de Timeline:</h4>
+                <p>Puedes controlar un timeline con métodos como:</p>
+                <ul>
+                    <li><code>tl.play()</code> - Inicia o continúa la reproducción</li>
+                    <li><code>tl.pause()</code> - Pausa el timeline</li>
+                    <li><code>tl.reverse()</code> - Invierte la reproducción</li>
+                    <li><code>tl.seek(position)</code> - Salta a una posición específica</li>
+                    <li><code>tl.progress(ratio)</code> - Salta a un progreso específico (0-1)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>ScrollTrigger</h2>
+            <p>ScrollTrigger es un plugin de GSAP que permite activar animaciones al hacer scroll. Para usar ScrollTrigger, primero debes incluirlo:</p>
+            
+            <div class="code-example">
+                <pre><span class="comment"><!-- Incluir ScrollTrigger después de GSAP --></span>
+<span class="keyword">&lt;script</span> <span class="property">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"</span><span class="keyword">&gt;&lt;/script&gt;</span></pre>
+            </div>
+            
+            <p>Ejemplo básico de ScrollTrigger:</p>
+            
+            <div class="code-example">
+                <pre><span class="comment">// Registrar el plugin</span>
+<span class="function">gsap</span>.<span class="function">registerPlugin</span>(ScrollTrigger);
+
+<span class="comment">// Crear una animación activada por scroll</span>
+<span class="function">gsap</span>.<span class="function">to</span>(<span class="string">".elemento"</span>, {
+  <span class="property">x</span>: <span class="number">500</span>,
+  <span class="property">duration</span>: <span class="number">1</span>,
+  <span class="property">scrollTrigger</span>: {
+    <span class="property">trigger</span>: <span class="string">".elemento"</span>,    <span class="comment">// Elemento que activa la animación</span>
+    <span class="property">start</span>: <span class="string">"top center"</span>,    <span class="comment">// Inicio: cuando el top del trigger llega al centro</span>
+    <span class="property">end</span>: <span class="string">"bottom center"</span>,   <span class="comment">// Fin: cuando el bottom del trigger llega al centro</span>
+    <span class="property">scrub</span>: <span class="number">true</span>,            <span class="comment">// Vincula la animación al scroll</span>
+    <span class="property">markers</span>: <span class="number">true</span>           <span class="comment">// Muestra marcadores (útil para debug)</span>
+  }
+});</pre>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Consejos Avanzados</h2>
+            
+            <h3>Easing (Curvas de Aceleración)</h3>
+            <p>GSAP ofrece una gran variedad de funciones de easing para darle personalidad a tus animaciones:</p>
+            <ul>
+                <li><code>"power1.out"</code>, <code>"power2.inOut"</code>, <code>"power4.in"</code></li>
+                <li><code>"back.out(1.7)"</code> - Efecto de rebote</li>
+                <li><code>"elastic.out(1, 0.3)"</code> - Efecto elástico</li>
+                <li><code>"bounce.out"</code> - Efecto de rebote tipo pelota</li>
+                <li><code>"steps(5)"</code> - Animación por pasos</li>
+            </ul>
+            
+            <h3>Callbacks</h3>
+            <p>Puedes ejecutar funciones en momentos específicos de la animación:</p>
+            
+            <div class="code-example">
+                <pre><span class="function">gsap</span>.<span class="function">to</span>(<span class="string">".elemento"</span>, {
+  <span class="property">x</span>: <span class="number">200</span>,
+  <span class="property">duration</span>: <span class="number">1</span>,
+  <span class="property">onStart</span>: <span class="function">() => </span><span class="function">console</span>.<span class="function">log</span>(<span class="string">"¡Animación iniciada!"</span>),
+  <span class="property">onUpdate</span>: <span class="function">() => </span><span class="function">console</span>.<span class="function">log</span>(<span class="string">"Actualizando..."</span>),
+  <span class="property">onComplete</span>: <span class="function">() => </span><span class="function">console</span>.<span class="function">log</span>(<span class="string">"¡Animación completada!"</span>)
+});</pre>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Proyecto Final: Secuencia de Animación</h2>
+            <p>A continuación, vamos a combinar todo lo que hemos aprendido en una secuencia de animación completa:</p>
+            
+            <div class="playground">
+                <div class="animation-box" id="final-demo">
+                    <div id="demo-circle" style="width: 80px; height: 80px; background-color: #4caf50; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0;"></div>
+                    <div id="demo-square" style="width: 100px; height: 100px; background-color: #f44336; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0); border-radius: 8px;"></div>
+                    <div id="demo-text" style="position: absolute; font-size: 2rem; color: #3f51b5; font-weight: bold; left: 50%; top: 70%; transform: translate(-50%, -50%); opacity: 0;">¡GSAP!</div>
+                </div>
+                <div class="controls">
+                    <button id="start-demo">Iniciar Demo</button>
+                    <button id="reset-demo">Reiniciar</button>
+                </div>
+            </div>
+            
+            <div class="code-example">
+                <pre><span class="function">document</span>.<span class="function">getElementById</span>(<span class="string">'start-demo'</span>).<span class="function">addEventListener</span>(<span class="string">'click'</span>, <span class="function">() => </span>{
+  <span class="keyword">const</span> <span class="property">masterTimeline</span> = <span class="function">gsap</span>.<span class="function">timeline</span>();
+  
+  <span class="comment">// Primera parte - círculo</span>
+  masterTimeline.<span class="function">to</span>(<span class="string">'#demo-circle'</span>, {
+    <span class="property">opacity</span>: <span class="number">1</span>,
+    <span class="property">scale</span>: <span class="number">1.5</span>,
+    <span class="property">duration</span>: <span class="number">0.7</span>,
+    <span class="property">ease</span>: <span class="string">"elastic.out(1, 0.3)"</span>
+  })
+  
+  <span class="comment">// Segunda parte - cuadrado aparece</span>
+  .<span class="function">to</span>(<span class="string">'#demo-circle'</span>, {
+    <span class="property">opacity</span>: <span class="number">0</span>,
+    <span class="property">scale</span>: <span class="number">3</span>,
+    <span class="property">duration</span>: <span class="number">0.3</span>
+  })
+  .<span class="function">to</span>(<span class="string">'#demo-square'</span>, {
+    <span class="property">scale</span>: <span class="number">1</span>,
+    <span class="property">rotation</span>: <span class="number">720</span>,
+    <span class="property">duration</span>: <span class="number">1</span>,
+    <span class="property">ease</span>: <span class="string">"back.out(1.7)"</span>
+  }, <span class="string">"-=0.2"</span>)
+  
+  <span class="comment">// Tercera parte - aparecer texto</span>
+  .<span class="function">to</span>(<span class="string">'#demo-square'</span>, {
+    <span class="property">y</span>: <span class="number">-50</span>,
+    <span class="property">duration</span>: <span class="number">0.5</span>
+  })
+  .<span class="function">to</span>(<span class="string">'#demo-text'</span>, {
+    <span class="property">opacity</span>: <span class="number">1</span>,
+    <span class="property">scale</span>: <span class="number">1.2</span>,
+    <span class="property">duration</span>: <span class="number">0.5</span>,
+    <span class="property">ease</span>: <span class="string">"power4.out"</span>
+  })
+  
+  <span class="comment">// Final - todo desaparece</span>
+  .<span class="function">to</span>([<span class="string">'#demo-square'</span>, <span class="string">'#demo-text'</span>], {
+    <span class="property">opacity</span>: <span class="number">0</span>,
+    <span class="property">y</span>: <span class="number">100</span>,
+    <span class="property">stagger</span>: <span class="number">0.2</span>,
+    <span class="property">duration</span>: <span class="number">0.7</span>
+  });
+});</pre>
+            </div>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2>Recursos Adicionales</h2>
+            <ul>
+                <li><a href="https://greensock.com/docs/" target="_blank">Documentación oficial de GSAP</a></li>
+                <li><a href="https://greensock.com/cheatsheet/" target="_blank">Cheatsheet de GSAP</a></li>
+                <li><a href="https://greensock.com/forums/" target="_blank">Foros de la comunidad GSAP</a></li>
+                <li><a href="https://codepen.io/collection/DRGoJy/" target="_blank">Ejemplos de GSAP en CodePen</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Incluir GSAP desde CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <script>
+        // Esperar a que el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animación básica
+            document.getElementById('animation1').addEventListener('click', () => {
+                gsap.to('#demo-box', {
+                    x: 200,
+                    rotation: 360,
+                    scale: 1.5,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
+            
+            document.getElementById('reset1').addEventListener('click', () => {
+                gsap.set('#demo-box', {
+                    x: 0,
+                    rotation: 0,
+                    scale: 1
+                });
+            });
+            
+            // Animación escalonada
+            document.getElementById('stagger-btn').addEventListener('click', () => {
+                gsap.to('.stagger-box', {
+                    y: 100,
+                    opacity: 0.5,
+                    scale: 0.8,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "back.out(1.7)"
+                });
+            });
+            
+            document.getElementById('reset-stagger').addEventListener('click', () => {
+                gsap.set('.stagger-box', {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1
+                });
+            });
+            
+            // Timeline
+            const tl = gsap.timeline({paused: true});
+            tl.to("#timeline-box", { x: 200, rotation: 360, duration: 0.8 })
+              .to("#timeline-circle", { opacity: 1, scale: 1.5, duration: 0.8 }, "<")
+              .to("#timeline-box", { y: 100, backgroundColor: "#e91e63", duration: 0.8 })
+              .to("#timeline-star", { opacity: 1, rotation: 720, duration: 0.8 })
+              .to(["#timeline-box", "#timeline-circle", "#timeline-star"], { 
+                scale: 0, 
+                opacity: 0, 
+                stagger: 0.2,
+                duration: 0.8 
+              });
+            
+            document.getElementById('timeline-btn').addEventListener('click', () => {
+                tl.restart();
+            });
+            
+            document.getElementById('reset-timeline').addEventListener('click', () => {
+                tl.pause(0);
+                gsap.set(["#timeline-box", "#timeline-circle", "#timeline-star"], {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    scale: 1,
+                    opacity: function() {
+                        if (this.targets()[0].id === "timeline-box") {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    },
+                    backgroundColor: function() {
+                        if (this.targets()[0].id === "timeline-box") {
+                            return "#039be5";
+                        }
+                    }
+                });
+            });
+            
+            // Demo final
+            const demoTimeline = gsap.timeline({paused: true});
+            
+            demoTimeline.to('#demo-circle', {
+                opacity: 1,
+                scale: 1.5,
+                duration: 0.7,
+                ease: "elastic.out(1, 0.3)"
+            })
+            .to('#demo-circle', {
+                opacity: 0,
+                scale: 3,
+                duration: 0.3
+            })
+            .to('#demo-square', {
+                scale: 1,
+                rotation: 720,
+                duration: 1,
+                ease: "back.out(1.7)"
+            }, "-=0.2")
+            .to('#demo-square', {
+                y: -50,
+                duration: 0.5
+            })
+            .to('#demo-text', {
+                opacity: 1,
+                scale: 1.2,
+                duration: 0.5,
+                ease: "power4.out"
+            })
+            .to(['#demo-square', '#demo-text'], {
+                opacity: 0,
+                y: 100,
+                stagger: 0.2,
+                duration: 0.7
+            });
+            
+            document.getElementById('start-demo').addEventListener('click', () => {
+                demoTimeline.restart();
+            });
+            
+            document.getElementById('reset-demo').addEventListener('click', () => {
+                demoTimeline.pause(0);
+                gsap.set('#demo-circle', {
+                    opacity: 0,
+                    scale: 1,
+                    x: 0,
+                    y: 0
+                });
+                gsap.set('#demo-square', {
+                    scale: 0,
+                    rotation: 0,
+                    x: 0,
+                    y: 0,
+                    opacity: 1
+                });
+                gsap.set('#demo-text', {
+                    opacity: 0,
+                    scale: 1,
+                    x: 0,
+                    y: 0
+                });
+            });
+        });
+    </script>
+</body>
+</html>
