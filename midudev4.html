@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <!-- Plugin Split Text -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    
+    <style>
+        body {
+            background: #222;
+            font-family: system-ui;
+        }
+        h1{
+            color: white;
+            text-wrap: balance;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>El código es poesía, pero también puede ser magia visual con GSAP</h1>
+
+    <script>
+        gsap.registerPlugin(SplitText)
+
+        const splitText = new SplitText('h1', {
+            type: "chars, words" //que separe el texto por letras, otras opciones: words, lines o por las tres juntas
+        })
+
+        gsap.from(splitText.words, {
+            duration: 1,
+            y: 10,
+            stagger: 0.1, //tiempo entre animaciones
+            autoAlpha: 0,  
+            filter: "blur(5px)"
+        })
+    </script>
+</body>
+</html>

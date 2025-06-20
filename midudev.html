@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <style>
+        body {
+            background: #222;
+            font-family: system-ui;
+        }
+        .box{
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            background: #09f;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+
+
+    <script>
+        //tenemos disponible el objeto gsap de forma global en nuestro proyecto
+
+        
+        //eje x horizontal hacia la derecha aumenta el valor hacia la izquierda disminuye el valor
+        //eje y vertical hacia abajo aumenta el valor, arriba disminuye el valor
+        //el punto 0,0 está en la esquina superior izquierda de la ventana
+
+        //desplazamos todos los elementos con clase box desde su estado actual (to) 100 px hacia la derecha
+        //from desde donde viene
+        //en gsap una animación se denomina tween
+        // gsap.to('.box', {
+        //     x: 100
+        // })
+
+        //fromTo - definimos desde dónde viene y hacia dónde va
+        //necesita dos objetos: estado inicial y estado final
+        //document.querySelectorAll (Array)
+        // gsap.fromTo('.box:first-child', {
+        //     x: -100,
+        //     y: -100
+        // },{
+        //     x: 116,
+        //     y:116
+        // })
+
+        //le podemos pasar como primer argumento un selector css o un array con los elementos a animar
+
+    function animacion1(){
+        //animar todas las cajas con animaciones escalonadas
+        gsap.to('.box', {
+            x: "100", //px por defecto
+            rotate: 360,
+            scale: .5,
+            repeat: 2, //-1 para infinito
+            yoyo: true, //va y vuelve
+            stagger: 0.1 //cuanto tiempo tiene que pasar entre las animaciones de cada uno de los elementos
+        })
+     }
+
+        
+            gsap.to('.box', {
+            x: "100", 
+            rotate: 360,
+            scale: .5,
+            stagger: {
+                each: 0.2,
+                repeat: 2,
+                yoyo:true
+            } 
+        })
+
+        //valores relativos:
+        // "+=200" - incrementa en 200 px
+        // "40vw"
+        //funciones que devuelvan un valor: () => window.innerWidth / 2
+
+        //se pueden animar todas las propiedades de css
+        //hay propiedades que son muy costosas de animar: margin, padding, box-shadow
+        //las propiedades que son de transformación tienen menos coste
+    </script>
+</body>
+</html>

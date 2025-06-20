@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <style>
+        body {
+            background: #222;
+            font-family: system-ui;
+        }
+        .grid{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        img {
+            aspect-ratio: 1/1;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/30/538cd33e15ab7/standard_xlarge.jpg" alt="Spider-Man">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/6/a0/55b6a25e654e6/standard_xlarge.jpg" alt="Iron Man">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/c/10/537ba5ff07aa4/standard_xlarge.jpg" alt="Capitain Marvel">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/9/90/5261a86cacb99/standard_xlarge.jpg" alt="Deadpool">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/5/a0/537bc7036ab02/standard_xlarge.jpg" alt="Thor">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0/standard_xlarge.jpg" alt="Hulk">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/5/f0/5261a85a501fe/standard_xlarge.jpg" alt="Doctor Strange">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/2/60/537bcaef0f6cf/standard_xlarge.jpg" alt="Wolverine">
+        <img src="https://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087/standard_xlarge.jpg" alt="Capitain America">
+    </div>
+
+
+    <script>
+
+        //esta animación funciona con grid (con flex no)
+        gsap.to('.grid img', {
+            duration: 5,
+            scale: .9,
+            opacity: 0,
+            stagger: {
+                each: 1,
+                repeat: -1,
+                yoyo: true,
+                grid: 'auto',
+                from: 'center'  //puede ser random, edges, end
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <style>
+        body {
+            background: #222;
+            font-family: system-ui;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            background: #09f;
+            margin-bottom: 4px;
+
+            &.purple{
+                background: rebeccapurple;
+            }
+            &.yellow{
+                background: yellow;
+            }
+        }
+        #log{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="box purple"></div>
+    <div class="box blue"></div>
+    <div class="box yellow"></div>
+
+    <footer>
+        <button id="play">Reproducir</button>
+        <button id="pause">Pausar</button>
+        <button id="resume">Resumir</button>
+        <button id="reverse">Revertir</button>
+        <button id="restart">Reiniciar</button>
+        <button id="turbo">X 2</button>
+    </footer>
+    <small id="log"></small>
+
+    <script>
+        //las curvas de animación se llaman easing
+        //https://gsap.com/docs/v3/Eases/
+        //easing visualizer
+
+        //crear una linea del tiempo para sincronizar las animaciones
+        const tl = gsap.timeline({
+            defaults: {
+                duration: 2
+            },
+            onComplete: () => {
+                //cuando la animacion se completa
+                log.innerHTML += "Animación completada <br>"
+            },
+            onStart: () => {
+                //cuando comienza
+                log.innerHTML += "Comienza la animación <br>"
+            }
+        })
+
+        tl
+        .to('.box.purple', {
+            x: 200,
+        })
+        .to('.box.blue', {
+            y: -104,
+        }, "<") //parámetro de posicion - que empiece igual que el elemento anterior
+        .to('.box.yellow', {
+            x: 100,
+            y: -208,
+        }, "+=1") //que se anime 1 segundo después
+
+        const log = document.getElementById("log")
+
+        document.getElementById('play').addEventListener('click', () => {
+            tl.play()
+            log.innerHTML += 'play <br>'
+        })
+        document.getElementById('pause').addEventListener('click', () => {
+            tl.pause()
+            log.innerHTML += 'pause <br>'
+        })
+        document.getElementById('resume').addEventListener('click', () => {
+            tl.resume()
+            log.innerHTML += 'resume <br>'
+        })
+        document.getElementById('reverse').addEventListener('click', () => {
+            tl.reverse()
+            log.innerHTML += 'reverse <br>'
+        })
+        document.getElementById('restart').addEventListener('click', () => {
+            tl.restart()
+            log.innerHTML += 'restart <br>'
+        })
+        document.getElementById('turbo').addEventListener('click', () => {
+            tl.timeScale(2)
+            log.innerHTML += 'restart <br>'
+        })
+    </script>
+</body>
+</html>

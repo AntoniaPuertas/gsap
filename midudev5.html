@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <!-- Plugin Split Text -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <!-- Plugin ScrollTrigger -->
+     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    
+    <style>
+        body {
+            height: 2000px;
+            width: 100vw;
+            background: #222;
+            font-family: system-ui;
+        }
+        h1{
+            color: white;
+            text-wrap: balance;
+            text-align: center;
+            position: fixed;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            font-size: 15vw;
+            width: 100%;
+        }
+
+        canvas {
+            position: fixed;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            aspect-ratio: 1068/600;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">AirPods Pro</h1>
+    <canvas id="hero"></canvas>
+    <script>
+        gsap.registerPlugin(SplitText)
+        gsap.registerPlugin(ScrollTrigger) 
+
+        gsap.to(".title", {
+            scale: 1.1,
+            autoAlpha: 0,
+            scrollTrigger: {
+                markers: true,
+                scrub: true,
+                start: "center center",
+            }
+        })
+
+        //scrub: true . vincula la animación con el scroll. El progreso de la animación dependerá del tamaño del scroll
+        //scrub puede ser tiempo en segundos: 0.5 y retrasa el inicio de la animación ese tiempo
+        //start: 1500 - comienza la animación a los 1500px del scroll
+        //start: center center
+        //markers: true - muestra marcas para saber dónde comienza y termina
+        //end: bottom center
+
+        const canvas = document.getElementById("hero")
+        const ctx = canvas.getContext("2d")
+        canvas.width = 1068
+        canvas.height = 600 
+        const TotalFrames = 65
+
+        const createURL = (frame) => {
+            //padStart añade ceros al inicio de la cadena de texto hasta que esta tenga 4 elementos
+            const id = frame.toString().padStart(4, "0")
+
+        return  `
+            https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/medium/${id}.png
+        `
+        }
+       //Array.from({length: TotalFrames}) crea un array vacío con la longitud TotalFrames
+       //(_,i) => { } Es la función que se ejecuta para cada posición del array
+       //_ es el primer parámetro que se ignora utilizando _
+       //i es el índice actual 0, 1, 2...TotalFrames-1
+       //new Image() crea un objeto Image, elemento html img
+        const images = Array.from({length: TotalFrames }, (_, i) => 
+        {
+            const img = new Image()
+            img.src = createURL(i)
+            return img
+        })
+
+        const airpods = {
+            frame: 0
+        }
+
+        gsap.to(airpods, {
+            frame: TotalFrames - 1,
+            ease: "none", //para que no tenga animación
+            snap: "frame", //para que vaya frame a frame, uno a uno
+            scrollTrigger: {
+                scrub: 0.5,
+            },
+            onUpdate: render //cada vez que se renderice que llame al método render
+        })
+
+        images[0].onload = () => render()
+
+        function render(){
+            //limpiar el canvas cada vez que se renderiza
+            //0, 0 punto inicial
+            //canvas.width, canvas.height punto final
+            ctx.clearRect(0,0,canvas.width, canvas.height)
+            ctx.drawImage(images[airpods.frame], 0, 0)
+        }
+    </script>
+</body>
+</html>
