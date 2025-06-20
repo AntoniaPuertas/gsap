@@ -63,12 +63,15 @@
         //markers: true - muestra marcas para saber dónde comienza y termina
         //end: bottom center
 
+
+        //prepara un canvas para dibujar una secuencia de 65 imágenes
         const canvas = document.getElementById("hero")
         const ctx = canvas.getContext("2d")
         canvas.width = 1068
         canvas.height = 600 
         const TotalFrames = 65
 
+        //generación de las urls
         const createURL = (frame) => {
             //padStart añade ceros al inicio de la cadena de texto hasta que esta tenga 4 elementos
             const id = frame.toString().padStart(4, "0")
@@ -77,11 +80,14 @@
             https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/medium/${id}.png
         `
         }
+
        //Array.from({length: TotalFrames}) crea un array vacío con la longitud TotalFrames
        //(_,i) => { } Es la función que se ejecuta para cada posición del array
        //_ es el primer parámetro que se ignora utilizando _
        //i es el índice actual 0, 1, 2...TotalFrames-1
        //new Image() crea un objeto Image, elemento html img
+
+       //precarga de imágenes: crea y precarga las 65 imágenes para que estén listas cuando se necesiten
         const images = Array.from({length: TotalFrames }, (_, i) => 
         {
             const img = new Image()
@@ -89,27 +95,30 @@
             return img
         })
 
+        //airpods.frame va de 0 a 65 según el scroll
         const airpods = {
-            frame: 0
+            frame: 0  //valor inicial
         }
 
-        gsap.to(airpods, {
-            frame: TotalFrames - 1,
+        gsap.to(airpods, {  //gsap toma el control del objeto airpods
+            frame: TotalFrames - 1, //gsap animará desde 0 a 64
             ease: "none", //para que no tenga animación
             snap: "frame", //para que vaya frame a frame, uno a uno
             scrollTrigger: {
                 scrub: 0.5,
             },
-            onUpdate: render //cada vez que se renderice que llame al método render
+            onUpdate: render //cada vez que cambia el frame que llame al método render
         })
 
         images[0].onload = () => render()
+
 
         function render(){
             //limpiar el canvas cada vez que se renderiza
             //0, 0 punto inicial
             //canvas.width, canvas.height punto final
             ctx.clearRect(0,0,canvas.width, canvas.height)
+            //dibuja la imagen correspondiente al frame actual
             ctx.drawImage(images[airpods.frame], 0, 0)
         }
     </script>
